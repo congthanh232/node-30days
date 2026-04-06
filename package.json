@@ -1,0 +1,40 @@
+{
+  "name": "node-30days",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check:env": "node src/check-env.js",
+    "predev": "pnpm run check:env",
+    "dev": "node --watch src/index.js",
+    "build": "echo 'Sẽ thêm build TS vào ngày 6' && exit 0",
+    "start": "node dist/index.js",
+    "lint": "eslint src/**/*.js",
+    "format": "prettier --write src/**/*.js",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.33.0",
+  "devDependencies": {
+    "eslint": "^10.2.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.1"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}
