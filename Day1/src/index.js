@@ -1,5 +1,10 @@
-import 'dotenv/config';
-const abc = 1;
+import dotenv from 'dotenv';
+
+//Xác định môi trường đang chạy
+const env = process.env.NODE_ENV || 'development';
+
+dotenv.config({ path: `.env.${env}` });
+
 const port = process.env.PORT;
 
 // Validate tối thiểu (Kiểm tra xem có bị thiếu không)
@@ -13,4 +18,4 @@ if (!port) {
 }
 
 console.log(`✅ [THÀNH CÔNG]: Khởi động ứng dụng tại Port: ${port}`);
-console.log(`🌍 Môi trường hiện tại: ${process.env.NODE_ENV}`);
+console.log(`🌍 Môi trường hiện tại: ${env}`);

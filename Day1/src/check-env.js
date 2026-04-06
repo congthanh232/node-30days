@@ -1,6 +1,11 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
 
-const REQUIRED_ENVS = ['PORT', 'NODE_ENV'];
+// Đọc xem môi trường là gì (nếu chưa có thì mặc định lấy 'development').
+const env = process.env.NODE_ENV || 'development';
+dotenv.config({ path: path.resolve(process.cwd(), `.env.${env}`) });
+
+const REQUIRED_ENVS = ['PORT'];
 
 function validateEnv() {
   const missingEnvs = REQUIRED_ENVS.filter((env) => !process.env[env]);
@@ -15,7 +20,7 @@ function validateEnv() {
     process.exit(1);
   }
 
-  console.log('✅ Kiểm tra môi trường: Hoàn tất (Đầy đủ biến).');
+  console.log(`✅ Kiểm tra môi trường: Hoàn tất (Đã đọc file .env.${env}).`);
 }
 
 validateEnv();
