@@ -1,16 +1,20 @@
 {
   "name": "node-30days",
   "version": "1.0.0",
-  "description": "",
+  "description": "Day1",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "check:env": "node src/check-env.js",
-    "predev": "pnpm run check:env",
-    "dev": "cross-env NODE_ENV=development node --watch src/index.js",
-    "staging": "cross-env NODE_ENV=staging node src/index.js",
-    "prod": "cross-env NODE_ENV=production node src/index.js",
+    "check:env:dev": "node --env-file=.env.development src/day1/check-env.js",
+    "check:env:staging": "node --env-file=.env.staging src/day1/check-env.js",
+    "check:env:prod": "node --env-file=.env.production src/day1/check-env.js",
+    "predev": "pnpm run check:env:dev",
+    "prestaging": "pnpm run check:env:staging",
+    "preprod": "pnpm run check:env:prod",
+    "dev": "node --env-file=.env.development --watch src/day1/index.js",
+    "staging": "node --env-file=.env.staging src/day1/index.js",
+    "prod": "node --env-file=.env.production src/day1/index.js",
     "build": "echo 'Sẽ thêm build TS vào ngày 6' && exit 0",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.js",
@@ -23,7 +27,6 @@
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "cross-env": "^10.1.0",
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
@@ -31,9 +34,6 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.1"
-  },
-  "dependencies": {
-    "dotenv": "^17.4.1"
   },
   "lint-staged": {
     "src/**/*.js": [
