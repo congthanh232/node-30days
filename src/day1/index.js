@@ -12,5 +12,6 @@ if (!port) {
   // exit(1) là báo cho hệ điều hành biết: Ứng dụng này bị lỗi, hãy ép nó dừng lại ngay!
   process.exit(1);
 }
-const x = console.log(`✅ [THÀNH CÔNG]: Khởi động ứng dụng tại Port: ${port}`);
+
+console.log(`✅ [THÀNH CÔNG]: Khởi động ứng dụng tại Port: ${port}`);
 console.log(`🌍 Môi trường hiện tại: ${env}`);
