@@ -1,23 +1,19 @@
 {
-  "name": "node-30days",
+  "name": "day1",
   "version": "1.0.0",
   "description": "Day1",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "vitest run ",
-    "check:env:dev": "node --env-file=.env.development src/day1/check-env.js",
-    "check:env:staging": "node --env-file=.env.staging src/day1/check-env.js",
-    "check:env:prod": "node --env-file=.env.production src/day1/check-env.js",
+    "check:env:dev": "node --env-file=.env.development src/check-env.js",
+    "check:env:staging": "node --env-file=.env.staging src/check-env.js",
+    "check:env:prod": "node --env-file=.env.production src/check-env.js",
     "predev": "pnpm run check:env:dev",
     "prestaging": "pnpm run check:env:staging",
     "preprod": "pnpm run check:env:prod",
-    "dev": "node --env-file=.env.development --watch src/day1/index.js",
-    "staging": "node --env-file=.env.staging src/day1/index.js",
-    "prod": "node --env-file=.env.production src/day1/index.js",
-
-    "day2:ping": "node src/day2/scripts/ping-urls.js",
-
+    "dev": "node --env-file=.env.development --watch src/index.js",
+    "staging": "node --env-file=.env.staging src/index.js",
+    "prod": "node --env-file=.env.production src/index.js",
     "build": "echo 'Sẽ thêm build TS vào ngày 6' && exit 0",
     "start": "node dist/index.js",
     "lint": "eslint src/**/*.js",
@@ -36,8 +32,7 @@
     "globals": "^17.4.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
-    "prettier": "^3.8.1",
-    "vitest": "^4.1.3"
+    "prettier": "^3.8.1"
   },
   "lint-staged": {
     "src/**/*.js": [
