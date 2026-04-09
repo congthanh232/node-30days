@@ -1,0 +1,4 @@
+name,email,age,_reason
+Le Van C,,24.0,Thiếu: email
+,d.pham@example.com,29.0,Thiếu: name
+,,,Thiếu: name, email
