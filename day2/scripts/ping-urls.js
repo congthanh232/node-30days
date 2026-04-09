@@ -45,7 +45,7 @@ async function runTool() {
   // Gọi hàm chúng ta vừa viết ở file kia
   const results = await processWithLimit(urls, 3, pingUrl);
 
-  // In kết quả ra một cái bảng cực kỳ sang trọng (tính năng có sẵn của Node)
+  // In kết quả ra một cái bảng 
   console.table(results, ['url', 'status', 'data']);
 
   // Tổng kết như yêu cầu của Bài tập

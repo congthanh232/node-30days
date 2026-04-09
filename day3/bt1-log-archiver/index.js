@@ -11,13 +11,15 @@ async function main() {
   const summary = {};
 
 for (const file of files) {
-    // đọc danh sách trong file
+  // đọc danh sách trong file
   const content = await fs.readFile(path.join(logsDir, file), 'utf-8');
+  // tách thành mảng theo kí tự và bỏ dòng trống
   const lines   = content.split('\n').filter(line => line.trim() !== '');
   const date    = file.replace('app-', '').replace('.log', '');
-
   summary[date] = (summary[date] ?? 0) + lines.length;
+  console.log(lines);
 }
+
 console.log(summary);
 
 // tạo thư mục
