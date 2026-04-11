@@ -1,0 +1,14 @@
+{
+  "file": "big.csv",
+  "fileSizeMB": 128.43,
+  "lineCount": 3000001,
+  "durationMs": 197,
+  "memoryBefore": {
+    "rssMB": 34.43,
+    "heapUsedMB": 4.59
+  },
+  "memoryAfter": {
+    "rssMB": 51.35,
+    "heapUsedMB": 6.79
+  }
+}
