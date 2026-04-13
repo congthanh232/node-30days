@@ -1,0 +1,5 @@
+{"event":"import.started","timestamp":"2026-04-13T15:51:07.783Z","data":{"file":"data.csv"}}
+{"event":"import.rowAccepted","timestamp":"2026-04-13T15:51:07.789Z","data":{"row":1,"name":"Alice"}}
+{"event":"import.rowRejected","timestamp":"2026-04-13T15:51:07.789Z","data":{"row":2,"reason":"missing email"}}
+{"event":"import.rowAccepted","timestamp":"2026-04-13T15:51:07.789Z","data":{"row":3,"name":"Bob"}}
+{"event":"import.finished","timestamp":"2026-04-13T15:51:07.790Z","data":{"total":3,"accepted":2,"rejected":1}}
