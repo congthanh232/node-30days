@@ -1,0 +1,5 @@
+name,email,age,_reason
+Charlie,,22,Email sai định dạng: 
+,dave@example.com,18,Tên (name) không được để trống
+Eve,not-an-email,20,Email sai định dạng: not-an-email
+Frank,frank@example.com,-5,Tuổi (age) không hợp lệ: -5
