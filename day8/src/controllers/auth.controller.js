@@ -3,7 +3,10 @@ import { register, login } from '../services/auth.service.js';
 
 export async function registerController(req, res, next) {
   try {
-    const user = await register(req.body);
+    // Tạo meta từ request — truyền sang service để ghi activity log
+    const meta = { ip: req.ip };
+
+    const user = await register(req.body, meta);
     res.json({
       message: 'Register thành công',
       user: { id: user.id, email: user.email }
@@ -15,7 +18,10 @@ export async function registerController(req, res, next) {
 
 export async function loginController(req, res, next) {
   try {
-    const token = await login(req.body);
+    // Tạo meta từ request — truyền sang service để ghi activity log
+    const meta = { ip: req.ip };
+
+    const token = await login(req.body, meta);
     if (!token) {
       return next(new AppError({
         code: 'INVALID_CREDENTIALS',

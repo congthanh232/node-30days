@@ -1,1 +1,26 @@
+# ── Dependencies ──────────────────────────────────────────
 node_modules/
+
+# ── Môi trường ────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Logs ──────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Upload files ──────────────────────────────────────────
+uploads/originals/
+uploads/processed/
+
+# ── OS files ──────────────────────────────────────────────
+.DS_Store        # Mac tự tạo
+Thumbs.db        # Windows tự tạo
+
+# ── Editor ────────────────────────────────────────────────
+.vscode/
+.idea/
+
+# ── Test coverage ─────────────────────────────────────────
+coverage/
