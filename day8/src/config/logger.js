@@ -36,7 +36,7 @@ const fileTransport = new DailyRotateFile({
 
 // ─── LOGGER ──────────────────────────────────────────────────────────────────
 const logger = winston.createLogger({
-  level: 'info', // log từ level info trở lên (info, warn, error)
+  level: process.env.LOG_LEVEL || 'info', // log từ level info trở lên (info, warn, error)
   transports: [consoleTransport, fileTransport],
 });
 

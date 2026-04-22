@@ -8,7 +8,7 @@ export function resetUsers() {
   users.length = 0;
 }
 // secret key (sau này để env)
-const JWT_SECRET = 'secret123';
+const JWT_SECRET = process.env.JWT_SECRET || 'secret123';
 
 export async function register({ name, email, password, role = 'member'}, meta = {}) {
   

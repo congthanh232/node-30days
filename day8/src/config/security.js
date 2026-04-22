@@ -4,9 +4,6 @@ export const helmetOptions = {
     // Nếu có frontend dùng chung server này thì mới bật
     contentSecurityPolicy: false,
 
-    // crossOriginResourcePolicy: cho phép resource được dùng cross-origin
-    // Quan trọng nếu serve file upload (ảnh, pdf...)
-    contentSecurityPolicy: false,
 }
 
 
