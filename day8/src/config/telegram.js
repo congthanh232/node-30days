@@ -39,6 +39,7 @@ export async function sendTelegram(text) {
 export async function notifyError(err, req) {
   // Lấy thời gian hiện tại theo giờ Việt Nam
   const now = new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+  const traceId = req.traceId;
 
   // Nếu request đã được authenticate thì lấy thông tin user
   // req.user được gắn vào bởi middleware authenticate
@@ -51,6 +52,7 @@ export async function notifyError(err, req) {
   const message = `
 🚨 <b>SERVER ERROR</b>
 
+🔎 <b>TraceId:</b> <code>${traceId}</code>
 ⏰ <b>Time:</b> ${now}
 🌐 <b>Method:</b> ${req.method}
 📍 <b>Path:</b> ${req.originalUrl}

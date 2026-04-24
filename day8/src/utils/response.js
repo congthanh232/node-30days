@@ -22,8 +22,9 @@ export function sendSuccess(res, { status = 200, message = 'Thành công', data 
  * @param {string} opts.code     - Error code
  * @param {string} opts.message  - Thông báo lỗi
  * @param {array}  opts.details  - Chi tiết lỗi (validation...)
+ * @param {string} opts.traceId  - ID theo dõi lỗi
  */
-export function sendError(res, { status = 400, code = 'ERROR', message = 'Có lỗi xảy ra', details = [] } = {}) {
+export function sendError(res, { status = 400, code = 'ERROR', message = 'Có lỗi xảy ra', details = [], traceId } = {}) {
   return res.status(status).json({
     success: false,
     code,

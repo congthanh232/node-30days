@@ -20,7 +20,7 @@ app.use(express.json());
 //   next(new Error('Lỗi giả để test stacktrace'));
 // });
 app.get('/test-error', (req, res, next) => {
-  throw new Error('Lỗi giả để test Telegram!');
+  throw new Error('Lỗi test 500!');
 });
 
 

@@ -21,8 +21,8 @@ export async function loginController(req, res, next) {
   try {
     // Tạo meta từ request — truyền sang service để ghi activity log
     const meta = { ip: req.ip };
-
     const token = await login(req.body, meta);
+    
     if (!token) {
       return next(new AppError({
         code: 'INVALID_CREDENTIALS',

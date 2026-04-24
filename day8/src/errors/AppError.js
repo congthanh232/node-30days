@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 
 export default class AppError extends Error {
     constructor({code, message, status = 500, details = [] }) {
@@ -6,6 +5,6 @@ export default class AppError extends Error {
         this.code = code;
         this.status = status;
         this.details = details;
-        this.traceId = randomUUID();
+
     } 
 }

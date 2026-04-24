@@ -8,8 +8,10 @@ const logFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
 
   // printf: tự định nghĩa format log trông như thế nào
-  winston.format.printf(({ timestamp, level, message }) => {
-    return `[${timestamp}] ${level.toUpperCase().padEnd(5)} ${message}`;
+  winston.format.printf(({ timestamp, level, message, traceId }) => {
+    // Nếu có traceId thì hiện, không thì để trống
+    const trace = traceId ? `[${traceId}]` : '[no-trace]';
+    return `[${timestamp}] ${level.toUpperCase().padEnd(5)} ${trace} ${message}`;
   })
 );
 

@@ -1,10 +1,10 @@
 import { getAllUsers, findUserById } from '../services/auth.service.js';
 import { getActivityLogs } from '../services/activityLog.service.js';
-import { sendSuccess, sendError } from '../utils/response.js'; 
+import { sendSuccess } from '../utils/response.js';
+import AppError from '../errors/AppError.js'; 
 export async function listUsersController(req, res, next) {
   try {
     const users = getAllUsers();
-
     // admin thấy đầy đủ thông tin
     const data = users.map(u => ({
       id: u.id,
@@ -27,21 +27,21 @@ export async function getUserController(req, res, next) {
 
         // member chỉ được xem thông tin của chính mình
         if (role === 'member' && Number(requestedId) !== Number(userId)) {
-          return sendError(res, {
+          return next(new AppError({
             code: 'FORBIDDEN',
             message: 'Bạn chỉ được xem thông tin của chính mình',
             status: 403
-          });
+          }));
         }
 
         const user = findUserById(requestedId);
 
         if (!user) {
-          return sendError(res, {
+          return next(new AppError({
             code: 'NOT_FOUND',
             message: 'Không tìm thấy user',
             status: 404
-          });
+          }));
         }
 
         // admin thấy đầy đủ, member thấy ít hơn

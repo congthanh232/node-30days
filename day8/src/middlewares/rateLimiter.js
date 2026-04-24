@@ -1,15 +1,14 @@
 import rateLimit from 'express-rate-limit';
-
+import { sendError } from '../utils/response.js';
 
 // Tạo function trả về response chuẩn khi bị rate limit
 const createLimitHandler = (message) => (req, res) => {
-    res.status(429).json({
-        success: false,
-        error: {
-            code: 'TOO_MANY_REQUESTS',
-            message,
-        },
-    });
+  return sendError(res, {
+    status: 429,
+    code: 'TOO_MANY_REQUESTS',
+    message,
+    traceId: req.traceId,
+  });
 };
 
 // Mục tiêu: chặn brute-force password
