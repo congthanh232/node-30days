@@ -6,7 +6,6 @@ export const helmetOptions = {
 
 }
 
-
 export const corsOptions = {
     // origin: browser từ domain nào được phép gọi API này
     origin:
@@ -20,7 +19,7 @@ export const corsOptions = {
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     
     // allowedHeaders: browser được gửi header nào lên server
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-trace-id'],
 
     // credentials: false vì dùng JWT (không dùng cookie)
     credentials: false,

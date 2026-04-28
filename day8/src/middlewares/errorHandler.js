@@ -18,7 +18,6 @@ export default function errorHandler(err, req, res, next) {
       message: err.message,
       details: err.details,
       traceId,
-
     });
 
   }
