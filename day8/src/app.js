@@ -6,31 +6,28 @@ import { generalLimiter } from './middlewares/rateLimiter.js';
 import { requestLogger } from './middlewares/requestLogger.js';
 import v1Router from './routes/v1/index.js';
 import errorHandler from './middlewares/errorHandler.js';
+import { seedOwners } from './seeder.js';
+
 
 const app = express();
 
+// ─── MIDDLEWARE ───────────────────────────────────────────────────────────────
 app.use(helmet(helmetOptions));
 app.use(cors(corsOptions));
 app.use('/api', generalLimiter);
 app.use(requestLogger);
-
 app.use(express.json());
-// CHỈ ĐỂ TEST - xóa sau khi test xong
-// app.get('/test-error', (req, res, next) => {
-//   next(new Error('Lỗi giả để test stacktrace'));
-// });
-app.get('/test-error', (req, res, next) => {
-  throw new Error('Lỗi test 500!');
-});
 
-
+// ─── ROUTES ───────────────────────────────────────────────────────────────────
 app.get('/health', (req,res) => {
     res.json({status: 'ok'});
 });
-
 app.use('/api/v1', v1Router);
 
+// ─── ERROR HANDLER ────────────────────────────────────────────────────────────
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 3000;
+// ─── SEED ─────────────────────────────────────────────────────────────────────
+await seedOwners();
+
 export default app;

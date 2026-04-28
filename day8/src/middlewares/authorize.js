@@ -1,4 +1,3 @@
-// src/middlewares/authorize.js
 import AppError from '../errors/AppError.js';
 
 // authorize nhận vào danh sách role được phép
