@@ -8,16 +8,23 @@ import AuthService from '#services/auth_service'
 export default class AccessTokensController {
   constructor(private authService: AuthService) {}
 
+  /**
+   * Đăng nhập, trả về token + roles của user
+   */
   async store({ request, serialize }: HttpContext) {
     const { email, password } = await request.validateUsing(loginValidator)
     const { user, token } = await this.authService.login(email, password)
 
     return serialize({
       user: UserTransformer.transform(user),
+      roles: user.roles.map((role) => role.name), // trả về ['student'] hoặc ['instructor']
       token: token.value!.release(),
     })
   }
 
+  /**
+   * Đăng xuất, xóa token hiện tại
+   */
   async destroy({ auth }: HttpContext) {
     const user = auth.getUserOrFail()
     await this.authService.logout(user)

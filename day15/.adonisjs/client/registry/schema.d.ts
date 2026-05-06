@@ -55,4 +55,88 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
     }
   }
+  'courses.courses.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/courses'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['store']>>>
+    }
+  }
+  'courses.courses.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['update']>>>
+    }
+  }
+  'courses.courses.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
+    }
+  }
+  'courses.courses.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/courses'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['index']>>>
+    }
+  }
+  'courses.courses.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['show']>>>
+    }
+  }
+  'submissions.submissions.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/submissions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/submissions_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/submissions_controller').default['store']>>>
+    }
+  }
+  'submissions.submissions.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/submissions/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/submissions_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/submissions_controller').default['update']>>>
+    }
+  }
 }

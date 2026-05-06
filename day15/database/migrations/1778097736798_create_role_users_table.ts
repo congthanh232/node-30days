@@ -16,7 +16,7 @@ export default class extends BaseSchema {
       // Tránh duplicate: 1 user không thể có cùng role 2 lần
       table.unique(['user_id', 'role_id'])
 
-      table.timestamp('created_at').notNullable()
+      table.timestamp('created_at').notNullable().defaultTo(this.now())
       table.timestamp('updated_at').nullable()
     })
   }

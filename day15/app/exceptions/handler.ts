@@ -15,6 +15,7 @@ export default class HttpExceptionHandler extends ExceptionHandler {
   async handle(error: unknown, ctx: HttpContext) {
     const { response, request } = ctx
     const traceId = request.id()
+    console.log('ERROR DETAIL:', JSON.stringify(error, null, 2))
 
     // Lỗi có status code — AppError, validation...
     if (error instanceof Error && 'status' in error) {
