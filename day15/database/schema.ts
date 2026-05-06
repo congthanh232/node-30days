@@ -7,6 +7,27 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
+export class AssignmentSchema extends BaseModel {
+  static $columns = ['courseId', 'createdAt', 'description', 'dueDate', 'id', 'maxScore', 'title', 'updatedAt'] as const
+  $columns = AssignmentSchema.$columns
+  @column()
+  declare courseId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare description: string | null
+  @column.dateTime()
+  declare dueDate: DateTime | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare maxScore: number
+  @column()
+  declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
 export class AuthAccessTokenSchema extends BaseModel {
   static $columns = ['abilities', 'createdAt', 'expiresAt', 'hash', 'id', 'lastUsedAt', 'name', 'tokenableId', 'type', 'updatedAt'] as const
   $columns = AuthAccessTokenSchema.$columns
@@ -30,6 +51,143 @@ export class AuthAccessTokenSchema extends BaseModel {
   declare type: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class CourseSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'price', 'status', 'teacherId', 'title', 'updatedAt'] as const
+  $columns = CourseSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare price: string | null
+  @column()
+  declare status: string | null
+  @column()
+  declare teacherId: number
+  @column()
+  declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class EnrollmentSchema extends BaseModel {
+  static $columns = ['completedAt', 'courseId', 'createdAt', 'id', 'paidPrice', 'status', 'updatedAt', 'userId'] as const
+  $columns = EnrollmentSchema.$columns
+  @column.dateTime()
+  declare completedAt: DateTime | null
+  @column()
+  declare courseId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare paidPrice: string | null
+  @column()
+  declare status: string | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
+export class GradeSchema extends BaseModel {
+  static $columns = ['createdAt', 'feedback', 'gradedBy', 'id', 'score', 'submissionId', 'updatedAt'] as const
+  $columns = GradeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare feedback: string | null
+  @column()
+  declare gradedBy: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare score: string
+  @column()
+  declare submissionId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class LessonSchema extends BaseModel {
+  static $columns = ['content', 'courseId', 'createdAt', 'id', 'isFree', 'order', 'title', 'updatedAt', 'videoUrl'] as const
+  $columns = LessonSchema.$columns
+  @column()
+  declare content: string | null
+  @column()
+  declare courseId: number
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare isFree: boolean | null
+  @column()
+  declare order: number
+  @column()
+  declare title: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare videoUrl: string | null
+}
+
+export class RoleUserSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'roleId', 'updatedAt', 'userId'] as const
+  $columns = RoleUserSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare roleId: number
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
+}
+
+export class RoleSchema extends BaseModel {
+  static $columns = ['createdAt', 'description', 'id', 'name', 'updatedAt'] as const
+  $columns = RoleSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare description: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare name: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class SubmissionSchema extends BaseModel {
+  static $columns = ['assignmentId', 'content', 'createdAt', 'fileUrl', 'id', 'status', 'submittedAt', 'updatedAt', 'userId'] as const
+  $columns = SubmissionSchema.$columns
+  @column()
+  declare assignmentId: number
+  @column()
+  declare content: string | null
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare fileUrl: string | null
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare status: string | null
+  @column.dateTime()
+  declare submittedAt: DateTime | null
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+  @column()
+  declare userId: number
 }
 
 export class UserSchema extends BaseModel {
