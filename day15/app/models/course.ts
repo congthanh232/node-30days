@@ -8,7 +8,8 @@ import Assignment from '#models/assignment'
 export default class Course extends CourseSchema {
   // Quan hệ N-1: course thuộc về 1 teacher (user)
   @belongsTo(() => User, {
-    foreignKey: 'teacher_id',
+    foreignKey: 'teacherId', // 👈 chỉ rõ foreign key là teacherId
+    localKey: 'id',
   })
   declare teacher: BelongsTo<typeof User>
 

@@ -19,12 +19,18 @@ export interface ApiDefinition {
     }
   }
   courses: {
-    courses: {
-      store: typeof routes['courses.courses.store']
-      update: typeof routes['courses.courses.update']
-      destroy: typeof routes['courses.courses.destroy']
-      index: typeof routes['courses.courses.index']
-      show: typeof routes['courses.courses.show']
+    public: {
+      courses: {
+        index: typeof routes['courses.public.courses.index']
+        show: typeof routes['courses.public.courses.show']
+      }
+    }
+    private: {
+      courses: {
+        store: typeof routes['courses.private.courses.store']
+        update: typeof routes['courses.private.courses.update']
+        destroy: typeof routes['courses.private.courses.destroy']
+      }
     }
   }
   submissions: {

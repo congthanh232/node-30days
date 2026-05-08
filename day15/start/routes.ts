@@ -41,17 +41,24 @@ router
       .as('profile')
       .use(middleware.auth())
 
-    // ─── COURSES — instructor only ────────────────────────────────────────────
+    // ─── COURSES public — không cần token ────────────────────────────────────
     router
       .group(() => {
-        router.post('/', [controllers.Courses, 'store']) // CoursePolicy.create
-        router.put('/:id', [controllers.Courses, 'update']) // CoursePolicy.edit
-        router.delete('/:id', [controllers.Courses, 'destroy']) // CoursePolicy.delete
-        router.get('/', [controllers.Courses, 'index']) // public
-        router.get('/:id', [controllers.Courses, 'show']) // public
+        router.get('/', [controllers.Courses, 'index'])
+        router.get('/:id', [controllers.Courses, 'show'])
       })
       .prefix('courses')
-      .as('courses')
+      .as('courses.public')
+
+    // ─── COURSES private — cần token + policy ────────────────────────────────
+    router
+      .group(() => {
+        router.post('/', [controllers.Courses, 'store'])
+        router.put('/:id', [controllers.Courses, 'update'])
+        router.delete('/:id', [controllers.Courses, 'destroy'])
+      })
+      .prefix('courses')
+      .as('courses.private')
       .use(middleware.auth())
 
     // ─── SUBMISSIONS — student only ───────────────────────────────────────────

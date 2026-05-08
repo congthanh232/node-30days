@@ -55,43 +55,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/access_tokens_controller').default['destroy']>>>
     }
   }
-  'courses.courses.store': {
-    methods: ["POST"]
-    pattern: '/api/v1/courses'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['store']>>>
-    }
-  }
-  'courses.courses.update': {
-    methods: ["PUT"]
-    pattern: '/api/v1/courses/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['update']>>>
-    }
-  }
-  'courses.courses.destroy': {
-    methods: ["DELETE"]
-    pattern: '/api/v1/courses/:id'
-    types: {
-      body: {}
-      paramsTuple: [ParamValue]
-      params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
-    }
-  }
-  'courses.courses.index': {
+  'courses.public.courses.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/courses'
     types: {
@@ -103,7 +67,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['index']>>>
     }
   }
-  'courses.courses.show': {
+  'courses.public.courses.show': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/courses/:id'
     types: {
@@ -113,6 +77,42 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['show']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['show']>>>
+    }
+  }
+  'courses.private.courses.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/courses'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/course').createCourseValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/course').createCourseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'courses.private.courses.update': {
+    methods: ["PUT"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/course').updateCourseValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/course').updateCourseValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'courses.private.courses.destroy': {
+    methods: ["DELETE"]
+    pattern: '/api/v1/courses/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/courses_controller').default['destroy']>>>
     }
   }
   'submissions.submissions.store': {
