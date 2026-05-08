@@ -70,5 +70,15 @@ router
       .prefix('submissions')
       .as('submissions')
       .use(middleware.auth())
+
+    // ─── ENROLLMENTS — student only ───────────────────────────────────────────
+    router
+      .group(() => {
+        router.post('/', [controllers.Enrollments, 'store']) // đăng ký khóa học
+        router.get('/', [controllers.Enrollments, 'index']) // danh sách đã enrolled
+      })
+      .prefix('enrollments')
+      .as('enrollments')
+      .use(middleware.auth())
   })
   .prefix('/api/v1')

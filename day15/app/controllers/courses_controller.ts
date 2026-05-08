@@ -92,7 +92,7 @@ export default class CoursesController {
 
     await course.load('teacher')
 
-    return serialize({ course: CourseTransformer.transform(course) })
+    return serialize({ course: new CourseTransformer(course).toObject() })
   }
 
   /**

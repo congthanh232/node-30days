@@ -17,6 +17,7 @@ export default class extends BaseSchema {
 
       // Index — tìm course theo teacher thường xuyên
       table.index(['teacher_id'])
+      table.index(['status'])
 
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').nullable()

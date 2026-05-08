@@ -72,6 +72,18 @@ const routes = {
     tokens: [{"old":"/api/v1/submissions/:id","type":0,"val":"api","end":""},{"old":"/api/v1/submissions/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/submissions/:id","type":0,"val":"submissions","end":""},{"old":"/api/v1/submissions/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['submissions.submissions.update']['types'],
   },
+  'enrollments.enrollments.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/enrollments',
+    tokens: [{"old":"/api/v1/enrollments","type":0,"val":"api","end":""},{"old":"/api/v1/enrollments","type":0,"val":"v1","end":""},{"old":"/api/v1/enrollments","type":0,"val":"enrollments","end":""}],
+    types: placeholder as Registry['enrollments.enrollments.store']['types'],
+  },
+  'enrollments.enrollments.index': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/enrollments',
+    tokens: [{"old":"/api/v1/enrollments","type":0,"val":"api","end":""},{"old":"/api/v1/enrollments","type":0,"val":"v1","end":""},{"old":"/api/v1/enrollments","type":0,"val":"enrollments","end":""}],
+    types: placeholder as Registry['enrollments.enrollments.index']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

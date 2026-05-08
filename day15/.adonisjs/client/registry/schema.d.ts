@@ -139,4 +139,28 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/submissions_controller').default['update']>>>
     }
   }
+  'enrollments.enrollments.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/enrollments'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/enrollment').createEnrollmentValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/enrollment').createEnrollmentValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/enrollments_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/enrollments_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'enrollments.enrollments.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/enrollments'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/enrollments_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/enrollments_controller').default['index']>>>
+    }
+  }
 }

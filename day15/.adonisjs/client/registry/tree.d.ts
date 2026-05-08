@@ -39,4 +39,10 @@ export interface ApiDefinition {
       update: typeof routes['submissions.submissions.update']
     }
   }
+  enrollments: {
+    enrollments: {
+      store: typeof routes['enrollments.enrollments.store']
+      index: typeof routes['enrollments.enrollments.index']
+    }
+  }
 }
