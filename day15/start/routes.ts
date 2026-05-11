@@ -80,5 +80,14 @@ router
       .prefix('enrollments')
       .as('enrollments')
       .use(middleware.auth())
+
+    // ─── GRADES — instructor only ─────────────────────────────────────────────
+    router
+      .group(() => {
+        router.post('/', [controllers.Grades, 'store'])
+      })
+      .prefix('grades')
+      .as('grades')
+      .use(middleware.auth())
   })
   .prefix('/api/v1')

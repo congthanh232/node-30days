@@ -163,4 +163,16 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/enrollments_controller').default['index']>>>
     }
   }
+  'grades.grades.store': {
+    methods: ["POST"]
+    pattern: '/api/v1/grades'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/grade').createGradeValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/grade').createGradeValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/grades_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/grades_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
 }

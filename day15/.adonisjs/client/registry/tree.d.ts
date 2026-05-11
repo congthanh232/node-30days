@@ -45,4 +45,9 @@ export interface ApiDefinition {
       index: typeof routes['enrollments.enrollments.index']
     }
   }
+  grades: {
+    grades: {
+      store: typeof routes['grades.grades.store']
+    }
+  }
 }

@@ -84,6 +84,12 @@ const routes = {
     tokens: [{"old":"/api/v1/enrollments","type":0,"val":"api","end":""},{"old":"/api/v1/enrollments","type":0,"val":"v1","end":""},{"old":"/api/v1/enrollments","type":0,"val":"enrollments","end":""}],
     types: placeholder as Registry['enrollments.enrollments.index']['types'],
   },
+  'grades.grades.store': {
+    methods: ["POST"],
+    pattern: '/api/v1/grades',
+    tokens: [{"old":"/api/v1/grades","type":0,"val":"api","end":""},{"old":"/api/v1/grades","type":0,"val":"v1","end":""},{"old":"/api/v1/grades","type":0,"val":"grades","end":""}],
+    types: placeholder as Registry['grades.grades.store']['types'],
+  },
 } as const satisfies Record<string, AdonisEndpoint>
 
 export { routes }

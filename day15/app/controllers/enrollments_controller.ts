@@ -3,12 +3,14 @@ import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import Enrollment from '#models/enrollment'
 import Course from '#models/course'
+import MailService from '#services/mail_service'
 import { createEnrollmentValidator } from '#validators/enrollment'
 
 @inject()
 export default class EnrollmentsController {
+  constructor(private mailService: MailService) {}
   /**
-   * Đăng ký khóa học — dùng transaction để đảm bảo toàn vẹn dữ liệu
+   * Đăng ký khóa học — dùng transaction + gửi email thông báo
    */
   async store({ request, auth, serialize }: HttpContext) {
     const user = auth.getUserOrFail()
@@ -41,9 +43,19 @@ export default class EnrollmentsController {
 
       // (Tương lai) xử lý payment ở đây, cùng transaction
       // await PaymentService.charge(user, course.price, { client: trx })
-
       return newEnrollment
     })
+
+    // Gửi email thông báo sau khi đăng ký thành công
+    this.mailService
+      .sendEnrollmentEmail({
+        studentEmail: user.email,
+        studentName: user.fullName,
+        courseName: course.title,
+      })
+      .catch((err) => {
+        console.error('Failed to send enrollment email:', err)
+      })
 
     return serialize({ enrollment })
   }

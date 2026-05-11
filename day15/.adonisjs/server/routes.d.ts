@@ -17,6 +17,7 @@ export type ScannedRoutes = {
     'submissions.submissions.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'enrollments.enrollments.store': { paramsTuple?: []; params?: {} }
     'enrollments.enrollments.index': { paramsTuple?: []; params?: {} }
+    'grades.grades.store': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'profile.profile.show': { paramsTuple?: []; params?: {} }
@@ -37,6 +38,7 @@ export type ScannedRoutes = {
     'courses.private.courses.store': { paramsTuple?: []; params?: {} }
     'submissions.submissions.store': { paramsTuple?: []; params?: {} }
     'enrollments.enrollments.store': { paramsTuple?: []; params?: {} }
+    'grades.grades.store': { paramsTuple?: []; params?: {} }
   }
   PUT: {
     'courses.private.courses.update': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
