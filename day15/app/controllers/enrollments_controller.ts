@@ -5,6 +5,7 @@ import Enrollment from '#models/enrollment'
 import Course from '#models/course'
 import MailService from '#services/mail_service'
 import { createEnrollmentValidator } from '#validators/enrollment'
+import SubmissionPolicy from '#policies/submission_policy'
 
 @inject()
 export default class EnrollmentsController {
@@ -12,9 +13,12 @@ export default class EnrollmentsController {
   /**
    * Đăng ký khóa học — dùng transaction + gửi email thông báo
    */
-  async store({ request, auth, serialize }: HttpContext) {
+  async store({ request, auth, bouncer, serialize }: HttpContext) {
     const user = auth.getUserOrFail()
     const { courseId } = await request.validateUsing(createEnrollmentValidator)
+
+    // Chỉ student mới được enroll
+    await bouncer.with(SubmissionPolicy).authorize('create')
 
     // Kiểm tra course có tồn tại không
     const course = await Course.findOrFail(courseId)
