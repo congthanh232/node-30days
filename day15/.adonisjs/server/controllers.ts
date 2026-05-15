@@ -5,10 +5,13 @@
 
 export const controllers = {
   AccessTokens: () => import('#controllers/access_tokens_controller'),
+  Assignments: () => import('#controllers/assignments_controller'),
   Courses: () => import('#controllers/courses_controller'),
   Enrollments: () => import('#controllers/enrollments_controller'),
   Grades: () => import('#controllers/grades_controller'),
+  Lessons: () => import('#controllers/lessons_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Profile: () => import('#controllers/profile_controller'),
+  Reports: () => import('#controllers/reports_controller'),
   Submissions: () => import('#controllers/submissions_controller'),
 }

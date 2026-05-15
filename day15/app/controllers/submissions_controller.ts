@@ -71,4 +71,34 @@ export default class SubmissionsController {
 
     return serialize({ submission })
   }
+
+  /**
+   * Lấy danh sách submissions của student — chỉ xem của mình
+   */
+  async index({ auth, serialize }: HttpContext) {
+    const user = auth.getUserOrFail()
+
+    const submissions = await Submission.query()
+      .where('user_id', user.id)
+      .preload('assignment')
+      .orderBy('created_at', 'desc')
+
+    return serialize({ submissions })
+  }
+
+  /**
+   * Lấy chi tiết 1 submission
+   */
+  async show({ params, auth, serialize }: HttpContext) {
+    const user = auth.getUserOrFail()
+
+    const submission = await Submission.query()
+      .where('id', params.id)
+      .where('user_id', user.id) // chỉ xem của chính mình
+      .preload('assignment')
+      .preload('grade')
+      .firstOrFail()
+
+    return serialize({ submission })
+  }
 }

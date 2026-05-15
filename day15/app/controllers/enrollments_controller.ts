@@ -79,4 +79,21 @@ export default class EnrollmentsController {
 
     return serialize({ enrollments })
   }
+
+  /**
+   * Hủy đăng ký khóa học — chỉ student sở hữu enrollment
+   */
+  async destroy({ params, auth }: HttpContext) {
+    const user = auth.getUserOrFail()
+
+    // Tìm enrollment của đúng user này
+    const enrollment = await Enrollment.query()
+      .where('id', params.id)
+      .where('user_id', user.id) // đảm bảo chỉ xóa enrollment của chính mình
+      .firstOrFail()
+
+    await enrollment.delete()
+
+    return { message: 'Unenrolled successfully' }
+  }
 }

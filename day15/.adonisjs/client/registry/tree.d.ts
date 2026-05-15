@@ -35,6 +35,8 @@ export interface ApiDefinition {
   }
   submissions: {
     submissions: {
+      index: typeof routes['submissions.submissions.index']
+      show: typeof routes['submissions.submissions.show']
       store: typeof routes['submissions.submissions.store']
       update: typeof routes['submissions.submissions.update']
     }
@@ -43,11 +45,50 @@ export interface ApiDefinition {
     enrollments: {
       store: typeof routes['enrollments.enrollments.store']
       index: typeof routes['enrollments.enrollments.index']
+      destroy: typeof routes['enrollments.enrollments.destroy']
     }
   }
   grades: {
     grades: {
+      index: typeof routes['grades.grades.index']
+      show: typeof routes['grades.grades.show']
       store: typeof routes['grades.grades.store']
+    }
+  }
+  lessons: {
+    public: {
+      lessons: {
+        index: typeof routes['lessons.public.lessons.index']
+        show: typeof routes['lessons.public.lessons.show']
+      }
+    }
+    private: {
+      lessons: {
+        store: typeof routes['lessons.private.lessons.store']
+        update: typeof routes['lessons.private.lessons.update']
+        destroy: typeof routes['lessons.private.lessons.destroy']
+      }
+    }
+  }
+  assignments: {
+    public: {
+      assignments: {
+        index: typeof routes['assignments.public.assignments.index']
+        show: typeof routes['assignments.public.assignments.show']
+      }
+    }
+    private: {
+      assignments: {
+        store: typeof routes['assignments.private.assignments.store']
+        update: typeof routes['assignments.private.assignments.update']
+        destroy: typeof routes['assignments.private.assignments.destroy']
+      }
+    }
+  }
+  reports: {
+    reports: {
+      courseStats: typeof routes['reports.reports.course_stats']
+      topStudents: typeof routes['reports.reports.top_students']
     }
   }
 }

@@ -62,4 +62,34 @@ export default class GradesController {
 
     return serialize({ grade })
   }
+
+  /**
+   * Lấy danh sách grades của instructor — xem các bài đã chấm
+   */
+  async index({ auth, serialize }: HttpContext) {
+    const user = auth.getUserOrFail()
+
+    const grades = await Grade.query()
+      .where('graded_by', user.id)
+      .preload('submission', (q) => {
+        q.preload('assignment')
+      })
+      .orderBy('created_at', 'desc')
+
+    return serialize({ grades })
+  }
+
+  /**
+   * Lấy chi tiết 1 grade
+   */
+  async show({ params, serialize }: HttpContext) {
+    const grade = await Grade.query()
+      .where('id', params.id)
+      .preload('submission', (q) => {
+        q.preload('assignment')
+      })
+      .firstOrFail()
+
+    return serialize({ grade })
+  }
 }
