@@ -3,6 +3,7 @@ export class UserResponseDto {
   id!: string;
   name!: string;
   email!: string;
+  role!: string;
   createdAt!: Date;
   // Không có password — không bao giờ trả password ra ngoài!
 
@@ -11,12 +12,14 @@ export class UserResponseDto {
     id: string;
     name: string;
     email: string;
+    role: string;
     createdAt: Date;
   }): UserResponseDto {
     const dto = new UserResponseDto();
     dto.id = user.id;
     dto.name = user.name;
     dto.email = user.email;
+    dto.role = user.role;
     dto.createdAt = user.createdAt;
     return dto;
   }

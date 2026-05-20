@@ -14,6 +14,7 @@ interface User {
   name: string;
   email: string;
   password: string;
+  role: string;
   createdAt: Date;
 }
 
@@ -39,6 +40,7 @@ export class UserService {
       name: dto.name,
       email: dto.email,
       password: hashedPassword,
+      role: 'user',
       createdAt: new Date(),
     };
 
@@ -93,5 +95,15 @@ export class UserService {
       throw new NotFoundException(`User #${id} not found`);
     }
     return UserResponseDto.fromEntity(user);
+  }
+
+  // Tìm user theo email — trả về cả password để verify
+  findByEmail(email: string): User | undefined {
+    return this.users.find((u) => u.email === email);
+  }
+
+  // Tìm user theo id — trả về cả password
+  findById(id: string): User | undefined {
+    return this.users.find((u) => u.id === id);
   }
 }
