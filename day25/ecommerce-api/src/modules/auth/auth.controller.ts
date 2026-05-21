@@ -4,8 +4,8 @@ import { LoginDto } from './dto/login.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { CurrentUser } from '../../decorators/current-user.decorator';
-import type { CurrentUserType } from '../../decorators/current-user.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import type { CurrentUserType } from '../../common/decorators/current-user.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
 
