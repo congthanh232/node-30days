@@ -23,7 +23,7 @@ export class AuthService {
   // Đăng nhập
   async login(dto: LoginDto) {
     // Bước 1: Tìm user theo email
-    const user = this.userService.findByEmail(dto.email);
+    const user = await this.userService.findByEmail(dto.email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -39,7 +39,7 @@ export class AuthService {
   }
 
   // Refresh access token
-  refresh(refreshToken: string) {
+  async refresh(refreshToken: string) {
     // Bước 1: Kiểm tra refresh token có trong danh sách không
     const userId = this.refreshTokens.get(refreshToken);
     if (!userId) {
@@ -57,7 +57,7 @@ export class AuthService {
     }
 
     // Bước 3: Lấy thông tin user và tạo access token mới
-    const user = this.userService.findById(userId);
+    const user = await this.userService.findById(userId);
     if (!user) {
       throw new UnauthorizedException('User not found');
     }

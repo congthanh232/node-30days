@@ -4,29 +4,20 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { PrismaService } from '../../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { QueryUserDto } from './dto/query-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
 
-// Tạm thời dùng in-memory array thay DB
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-  createdAt: Date;
-}
-
 @Injectable()
 export class UserService {
-  // Lưu tạm trong memory
-  private users: User[] = [];
-
+  constructor(private readonly prisma: PrismaService) {}
   // Tạo user mới
   async create(dto: CreateUserDto): Promise<UserResponseDto> {
     // Kiểm tra email đã tồn tại chưa
-    const existing = this.users.find((u) => u.email === dto.email);
+    const existing = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
     if (existing) {
       throw new ConflictException('Email already exists');
     }
@@ -34,63 +25,59 @@ export class UserService {
     // Hash password trước khi lưu
     const hashedPassword = await bcrypt.hash(dto.password, 10);
 
-    // Tạo user mới
-    const user: User = {
-      id: crypto.randomUUID(),
-      name: dto.name,
-      email: dto.email,
-      password: hashedPassword,
-      role: 'user',
-      createdAt: new Date(),
-    };
-
-    this.users.push(user);
+    // Tạo user mới trong DB
+    const user = await this.prisma.user.create({
+      data: {
+        name: dto.name,
+        email: dto.email,
+        password: hashedPassword,
+        role: 'user',
+      },
+    });
 
     // Trả về DTO sạch — không có password
     return UserResponseDto.fromEntity(user);
   }
 
   // Lấy danh sách user có pagination + search
-  findAll(query: QueryUserDto): {
-    data: UserResponseDto[];
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-  } {
-    let filtered = [...this.users];
-
-    // Tìm kiếm theo tên hoặc email
-    if (query.search) {
-      const search = query.search.toLowerCase();
-      filtered = filtered.filter(
-        (u) =>
-          u.name.toLowerCase().includes(search) ||
-          u.email.toLowerCase().includes(search),
-      );
-    }
-
-    // Sắp xếp theo createdAt mới nhất
-    filtered.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-
-    // Tính pagination
-    const total = filtered.length;
+  async findAll(query: QueryUserDto) {
     const page = query.page ?? 1;
     const limit = query.limit ?? 10;
-    const totalPages = Math.ceil(total / limit);
     const skip = (page - 1) * limit;
 
-    // Cắt đúng trang, dùng arrow function thay vì method reference
-    const data = filtered
-      .slice(skip, skip + limit)
-      .map((u) => UserResponseDto.fromEntity(u));
+    // Điều kiện search
+    const where = query.search
+      ? {
+          OR: [
+            { name: { contains: query.search } },
+            { email: { contains: query.search } },
+          ],
+        }
+      : {};
 
-    return { data, total, page, limit, totalPages };
+    // Chạy 2 query song song — lấy data và đếm total
+    const [users, total] = await this.prisma.$transaction([
+      this.prisma.user.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    return {
+      data: users.map((u) => UserResponseDto.fromEntity(u)),
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   // Tìm user theo id
-  findOne(id: string): UserResponseDto {
-    const user = this.users.find((u) => u.id === id);
+  async findOne(id: string): Promise<UserResponseDto> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
     }
@@ -98,12 +85,12 @@ export class UserService {
   }
 
   // Tìm user theo email — trả về cả password để verify
-  findByEmail(email: string): User | undefined {
-    return this.users.find((u) => u.email === email);
+  async findByEmail(email: string) {
+    return await this.prisma.user.findUnique({ where: { email } });
   }
 
   // Tìm user theo id — trả về cả password
-  findById(id: string): User | undefined {
-    return this.users.find((u) => u.id === id);
+  async findById(id: string) {
+    return await this.prisma.user.findUnique({ where: { id } });
   }
 }

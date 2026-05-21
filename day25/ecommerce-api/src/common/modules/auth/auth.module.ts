@@ -16,7 +16,6 @@ import { UserModule } from '../user/user.module';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         const secret = config.get<string>('JWT_ACCESS_SECRET');
-        console.log('JWT_ACCESS_SECRET:', secret);
         return {
           secret,
           signOptions: {

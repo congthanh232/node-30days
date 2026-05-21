@@ -25,7 +25,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   // Chạy sau khi verify token thành công
   // Kết quả trả về sẽ được gắn vào request.user
   validate(payload: JwtPayload) {
-    console.log('JWT payload:', payload);
     if (!payload.sub) {
       throw new UnauthorizedException('Invalid token');
     }
