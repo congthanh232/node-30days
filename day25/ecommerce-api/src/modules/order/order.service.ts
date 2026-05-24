@@ -4,16 +4,37 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
+import { IdempotencyService } from '../../common/idempotency/idempotency.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderResponseDto } from './dto/order-response.dto';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly idempotencyService: IdempotencyService,
+  ) {}
 
   // Tạo order mới — dùng transaction
-  async create(userId: string, dto: CreateOrderDto): Promise<OrderResponseDto> {
-    return this.prisma.$transaction(async (tx) => {
+  async create(
+    userId: string,
+    dto: CreateOrderDto,
+    idempotencyKey?: string,
+  ): Promise<unknown> {
+    // Nếu có idempotency key → kiểm tra trước
+    if (idempotencyKey) {
+      const bodyHash = this.idempotencyService.hashBody(dto);
+      const { exists, response } = await this.idempotencyService.checkKey(
+        idempotencyKey,
+        userId,
+        bodyHash,
+      );
+
+      // Key đã tồn tại → trả response cũ luôn
+      if (exists) return response;
+    }
+
+    const result = await this.prisma.$transaction(async (tx) => {
       let totalPrice = 0;
 
       // Bước 1: Validate từng product và tính total
@@ -71,6 +92,19 @@ export class OrderService {
 
       return OrderResponseDto.fromEntity(order);
     });
+
+    // Lưu key + response vào DB sau khi xử lý xong
+    if (idempotencyKey) {
+      const bodyHash = this.idempotencyService.hashBody(dto);
+      await this.idempotencyService.saveKey(
+        idempotencyKey,
+        userId,
+        bodyHash,
+        result,
+      );
+    }
+
+    return result;
   }
 
   // Lấy danh sách order của user

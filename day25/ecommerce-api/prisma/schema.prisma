@@ -15,26 +15,26 @@ model User {
   role      String   @default("user")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  orders  Order[]
+  orders    Order[]
 
   @@map("users")
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   name        String
-  description String?  @db.Text
-  price       Decimal  @db.Decimal(10, 2)
-  stock       Int      @default(0)
+  description String?     @db.Text
+  price       Decimal     @db.Decimal(10, 2)
+  stock       Int         @default(0)
   category    String
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  isActive    Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
   ordersItems OrderItem[]
 
-  @@index([name])        
-  @@index([category])    
-  @@index([isActive])    
+  @@index([name])
+  @@index([category])
+  @@index([isActive])
   @@map("products")
 }
 
@@ -71,4 +71,17 @@ enum OrderStatus {
   PENDING
   PAID
   CANCELLED
+}
+
+model IdempotencyKey {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  userId    String
+  bodyHash  String
+  response  Json
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@index([key, userId])
+  @@map("idempotency_keys")
 }

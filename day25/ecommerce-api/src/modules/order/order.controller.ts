@@ -6,6 +6,7 @@ import {
   Body,
   Param,
   UseGuards,
+  Headers,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -21,8 +22,12 @@ export class OrderController {
 
   // POST /api/v1/orders — tạo order mới
   @Post()
-  create(@Body() dto: CreateOrderDto, @CurrentUser() user: CurrentUserType) {
-    return this.orderService.create(user.userId, dto);
+  create(
+    @Body() dto: CreateOrderDto,
+    @CurrentUser() user: CurrentUserType,
+    @Headers('idempotency-key') idempotencyKey?: string,
+  ) {
+    return this.orderService.create(user.userId, dto, idempotencyKey);
   }
 
   // GET /api/v1/orders — lấy danh sách order của user
