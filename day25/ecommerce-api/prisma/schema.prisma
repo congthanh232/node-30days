@@ -45,6 +45,7 @@ model Order {
   totalPrice Decimal     @db.Decimal(10, 2)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
+  payments   Payment?
 
   user  User        @relation(fields: [userId], references: [id])
   items OrderItem[]
@@ -84,4 +85,24 @@ model IdempotencyKey {
 
   @@index([key, userId])
   @@map("idempotency_keys")
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  orderId   String        @unique
+  amount    Decimal       @db.Decimal(10, 2)
+  status    PaymentStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@index([orderId])
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
 }
