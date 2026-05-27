@@ -36,13 +36,6 @@ export class LoggingInterceptor implements NestInterceptor {
             `← ${method} ${url} ${statusCode} ${duration}ms [${traceId}]`,
           );
         },
-        // Log response ra — lỗi
-        error: (error: Error) => {
-          const duration = Date.now() - startTime;
-          this.logger.error(
-            `← ${method} ${url} ERROR ${duration}ms [${traceId}] - ${error.message}`,
-          );
-        },
       }),
     );
   }

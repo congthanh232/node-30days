@@ -9,10 +9,13 @@ import {
 import { Request, Response } from 'express';
 import { ApiResponse } from '../dto/api-response.dto';
 import { v4 as uuidv4 } from 'uuid';
+import { TelegramService } from '../telegram/telegram.service';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   private readonly logger = new Logger('HTTP');
+
+  constructor(private readonly telegramService: TelegramService) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -37,15 +40,28 @@ export class HttpExceptionFilter implements ExceptionFilter {
       } else {
         message = exceptionResponse;
       }
+      // Log lỗi HTTP thường
+      this.logger.warn(
+        `← ${method} ${url} ${status} [${traceId}] - ${message}`,
+      );
     } else if (exception instanceof Error) {
-      this.logger.error(
-        `← ${method} ${url} ${status} [${traceId}] - ${exception.message}`,
-        exception.stack,
+      this.logger.warn(
+        `← ${method} ${url} ${status} [${traceId}] - ${exception.message}\n${exception.stack ?? ''}`,
       );
     }
 
-    // Log tất cả lỗi
-    this.logger.warn(`← ${method} ${url} ${status} [${traceId}] - ${message}`);
+    // Chỉ gửi Telegram khi lỗi 500 — lỗi nghiêm trọng cần alert ngay
+    if (status >= HttpStatus.INTERNAL_SERVER_ERROR) {
+      const alert = this.telegramService.formatErrorAlert({
+        method,
+        url,
+        status,
+        message,
+        traceId,
+        timestamp: new Date().toISOString(),
+      });
+      void this.telegramService.sendAlert(alert);
+    }
 
     response.status(status).json(ApiResponse.error(status, message, traceId));
   }

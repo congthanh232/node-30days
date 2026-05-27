@@ -11,4 +11,8 @@ export class HealthController {
   check() {
     return this.healthService.check();
   }
+  @Get('test-error')
+  testError() {
+    throw new Error('Test 500 error for Telegram alert!');
+  }
 }
