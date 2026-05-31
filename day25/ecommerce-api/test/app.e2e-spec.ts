@@ -186,5 +186,33 @@ describe('E2E Tests', () => {
       expect(res.status).toBe(200);
       expect(res.body.data).toHaveProperty('id', productId);
     });
+    it('GET /products — should support pagination', async () => {
+      const res = await request(app.getHttpServer()).get(
+        '/api/v1/products?page=1&limit=5',
+      );
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.data.length).toBeLessThanOrEqual(5);
+      expect(res.body.data).toHaveProperty('total');
+      expect(res.body.data).toHaveProperty('totalPages');
+    });
+
+    it('GET /products — should filter by category', async () => {
+      const res = await request(app.getHttpServer()).get(
+        '/api/v1/products?category=test',
+      );
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.data).toBeInstanceOf(Array);
+    });
+
+    it('GET /products — should sort by price', async () => {
+      const res = await request(app.getHttpServer()).get(
+        '/api/v1/products?sort=price&order=asc',
+      );
+
+      expect(res.status).toBe(200);
+      expect(res.body.data.data).toBeInstanceOf(Array);
+    });
   });
 });

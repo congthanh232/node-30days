@@ -27,7 +27,7 @@ export class ProductService {
   // Lấy danh sách sản phẩm có pagination + filter + sort
   async findAll(query: QueryProductDto) {
     const page = query.page ?? 1;
-    const limit = query.limit ?? 10;
+    const limit = Math.min(query.limit ?? 10, 100);
     const skip = (page - 1) * limit;
 
     // Điều kiện filter

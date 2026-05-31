@@ -37,6 +37,12 @@ export class OrderService {
     const result = await this.prisma.$transaction(async (tx) => {
       let totalPrice = 0;
 
+      // Cache products để không query lại nhiều lần trong loop
+      const productMap = new Map<
+        string,
+        { price: number; name: string; stock: number }
+      >();
+
       // Bước 1: Validate từng product và tính total
       for (const item of dto.items) {
         const product = await tx.product.findUnique({
@@ -55,6 +61,13 @@ export class OrderService {
           );
         }
 
+        // Cache lại để dùng ở bước 2
+        productMap.set(item.productId, {
+          price: Number(product.price),
+          name: product.name,
+          stock: product.stock,
+        });
+
         totalPrice += Number(product.price) * item.quantity;
       }
 
@@ -65,18 +78,11 @@ export class OrderService {
           totalPrice,
           status: 'PENDING',
           items: {
-            create: await Promise.all(
-              dto.items.map(async (item) => {
-                const product = await tx.product.findUnique({
-                  where: { id: item.productId },
-                });
-                return {
-                  productId: item.productId,
-                  quantity: item.quantity,
-                  price: Number(product!.price),
-                };
-              }),
-            ),
+            create: dto.items.map((item) => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              price: productMap.get(item.productId)!.price,
+            })),
           },
         },
         include: { items: true },

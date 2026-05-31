@@ -31,6 +31,21 @@ async function main() {
     },
   });
 
+  // Tạo 1000 products để benchmark
+  console.log('Seeding 1000 products...');
+  const categories = ['fashion', 'food', 'tech', 'sport', 'beauty'];
+  for (let i = 0; i < 1000; i++) {
+    await prisma.product.create({
+      data: {
+        name: `Product ${i}`,
+        price: Math.random() * 1000000,
+        stock: Math.floor(Math.random() * 100),
+        category: categories[i % 5],
+        isActive: true,
+      },
+    });
+  }
+
   console.log('Seeding done!');
 }
 

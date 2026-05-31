@@ -42,7 +42,7 @@ export class UserService {
   // Lấy danh sách user có pagination + search
   async findAll(query: QueryUserDto) {
     const page = query.page ?? 1;
-    const limit = query.limit ?? 10;
+    const limit = Math.min(query.limit ?? 10, 100);
     const skip = (page - 1) * limit;
 
     // Điều kiện search

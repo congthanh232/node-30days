@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextIndex"]
 }
 
 datasource db {
@@ -32,9 +33,9 @@ model Product {
   updatedAt   DateTime    @updatedAt
   ordersItems OrderItem[]
 
-  @@index([name])
   @@index([category])
   @@index([isActive])
+  @@fulltext([name])
   @@map("products")
 }
 
