@@ -45,8 +45,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
         `← ${method} ${url} ${status} [${traceId}] - ${message}`,
       );
     } else if (exception instanceof Error) {
+      const isDev = process.env.NODE_ENV === 'development';
       this.logger.warn(
-        `← ${method} ${url} ${status} [${traceId}] - ${exception.message}\n${exception.stack ?? ''}`,
+        `← ${method} ${url} ${status} [${traceId}] - ${exception.message}${
+          isDev ? '\n' + (exception.stack ?? '') : ''
+        }`,
       );
     }
 

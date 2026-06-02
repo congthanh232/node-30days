@@ -6,9 +6,9 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import type { CurrentUserType } from '../../common/decorators/current-user.decorator';
-import { Roles } from 'src/common/decorators/roles.decorator';
 import { RolesGuard } from './guards/roles.guard';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler/dist/throttler.decorator';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -25,6 +25,12 @@ export class AuthController {
   @ApiOperation({ summary: 'Login and get tokens' })
   // POST /api/v1/auth/login
   @Post('login')
+  @Throttle({
+    default: {
+      limit: 5,
+      ttl: 60000,
+    },
+  })
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
@@ -45,9 +51,8 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Get user profile' })
   @ApiBearerAuth()
-  // GET /api/v1/auth/profile — chỉ admin mới vào được
+  // GET /api/v1/auth/profile
   @UseGuards(JwtAuthGuard, RolesGuard)
-  // @Roles('admin')
   @Get('profile')
   getProfile(@CurrentUser() user: CurrentUserType) {
     return user;

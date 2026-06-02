@@ -19,6 +19,7 @@ import {
   ApiBearerAuth,
   ApiHeader,
 } from '@nestjs/swagger';
+import { Throttle } from '@nestjs/throttler/dist/throttler.decorator';
 
 @ApiTags('Order')
 @ApiBearerAuth()
@@ -36,6 +37,12 @@ export class OrderController {
   })
   // POST /api/v1/orders — tạo order mới
   @Post()
+  @Throttle({
+    default: {
+      limit: 10,
+      ttl: 60000,
+    },
+  })
   create(
     @Body() dto: CreateOrderDto,
     @CurrentUser() user: CurrentUserType,
