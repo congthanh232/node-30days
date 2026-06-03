@@ -11,7 +11,7 @@ import { TelegramService } from './common/telegram/telegram.service';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core/constants';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { envValidationSchema } from './config/env.validation';
+import { envValidationSchema } from './common/config/env.validation';
 @Module({
   imports: [
     ConfigModule.forRoot({
